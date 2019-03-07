@@ -66,6 +66,7 @@
           </el-table-column>
           <el-table-column
             prop="checkintime"
+            width="100"
             label="加入时间">
           </el-table-column>
           <el-table-column
@@ -75,7 +76,7 @@
           <el-table-column
             fixed="right"
             label="操作"
-            width="150">
+            width="240">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -84,6 +85,47 @@
                 size="mini"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-popover
+                v-if="scope.row.fkteamid == null"
+                placement="left"
+                title="可绑定的车辆"
+                width="500"
+                trigger="click">
+                <el-table :data="NotBinding">
+                  <el-table-column width="150" property="truckid" label="车辆编号"></el-table-column>
+                  <el-table-column width="100" property="number" label="车牌号"></el-table-column>
+                  <el-table-column width="300" property="type" label="车辆类型"></el-table-column>
+                  <el-table-column
+                    fixed="right"
+                    label="操作"
+                    width="100">
+                    <template slot-scope="scope">
+                      <el-button
+                        size="mini"
+                        type="danger"
+                        @click="binding2(scope.$index, scope.row)">绑定该车辆</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <el-button
+                  slot="reference"
+                  size="mini"
+                  type="primary"
+                  @click="binding1(scope.$index, scope.row)">绑定车辆</el-button>
+              </el-popover>
+              <el-popover
+                v-if="scope.row.fkteamid != null"
+                placement="left"
+                title="可绑定的车辆"
+                width="500"
+                trigger="click"
+                content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                <el-button
+                  slot="reference"
+                  size="mini"
+                  type="warning"
+                  @click="notbinding(scope.$index, scope.row)">解绑车辆</el-button>
+              </el-popover>
             </template>
           </el-table-column>
         </el-table>
@@ -157,6 +199,7 @@
             multipleSelection:[],
             delArr:[],
             drivers:[],
+            NotBinding:[],
             driver:{
               driverid:'',
               name:'',
@@ -174,6 +217,7 @@
         },
         mounted(){
           this.initDriver()
+          this.initNotBinding()
         },
         methods: {
           sizeChange(val){
@@ -284,6 +328,23 @@
               });
             }
           },
+          initNotBinding(){
+            this.getRequest("/driver/getAllNotBindingTruck").then(resp=>{
+              if (resp){
+                this.NotBinding = resp
+              }
+            })
+          },
+          binding1(index,row){
+            this.driver.driverid = row.driverid
+          },
+          binding2(index,row){
+            this.postKeyValueRequest("/driver/binding?driverid="+this.driver.driverid+"&truckid="+row.truckid).then(resp=>{
+              if (resp){
+                this.initNotBinding();
+              }
+            })
+          }
         }
     }
 </script>

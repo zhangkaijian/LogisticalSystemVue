@@ -9,12 +9,14 @@ import {postRequest} from "./utils/api";
 import {getRequest} from "./utils/api";
 import {putRequest} from "./utils/api";
 import {deleteRequest} from "./utils/api";
+import {postKeyValueRequest} from "./utils/api";
 
 Vue.config.productionTip = false
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
+Vue.prototype.postKeyValueRequest = postKeyValueRequest;
 
 router.beforeEach((to,from,next)=>{
   if (to.path=='/'||window.sessionStorage.getItem("user")){
