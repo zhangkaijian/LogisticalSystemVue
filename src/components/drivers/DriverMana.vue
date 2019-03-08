@@ -11,6 +11,7 @@
       <div style="margin-top: 5px">
         <el-table
           ref="multipleTable" @selection-change="handleSelectionChange"
+          v-loading="loading"
           :data="drivers"
           stripe
           border
@@ -215,6 +216,7 @@
         name: "DriverMana",
         data(){
           return{
+            loading:true,
             dialogVisible:false,
             dialogVisible2:false,
             flag:'',
@@ -260,10 +262,10 @@
             this.getRequest(url).then(resp => {
               this.drivers = resp.data
               this.total = resp.total
+              this.loading = false
             })
           },
           showAddDriverView() {
-            this.dialogVisible = true
             this.flag = '添加驾驶员信息'
             this.driver = {
               driverid: '',

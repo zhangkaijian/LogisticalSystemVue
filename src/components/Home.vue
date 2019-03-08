@@ -20,7 +20,7 @@
       </el-header>
       <el-container style="height: 743px">
         <el-aside width="205px" style="background-color: #545c64">
-          <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router>
+          <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" router style="height: 100%">
             <el-submenu :index="index+''" v-for="(item,index) in this.$router.options.routes" :key="index" v-if="!item.hidden && item.meta.role.indexOf(user.role.rolename)!=-1">
               <template slot="title">
                 <i class="el-icon-menu"></i>
