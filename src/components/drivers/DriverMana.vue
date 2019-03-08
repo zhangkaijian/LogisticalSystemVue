@@ -58,11 +58,19 @@
             prop="fkteamid"
             width="90"
             label="车队编号">
+            <template slot-scope="scope">
+              <el-tag  v-if="scope.row.fkteamid==0">未绑定</el-tag>
+              <el-tag  type="warning" v-else>{{scope.row.fkteamid}}</el-tag>
+            </template>
           </el-table-column>
           <el-table-column
             prop="state"
             width="80"
             label="状态">
+            <template slot-scope="scope">
+              <el-tag type="success" v-if="scope.row.state==2">空闲中</el-tag>
+              <el-tag type="danger" v-if="scope.row.state==1">承运中</el-tag>
+            </template>
           </el-table-column>
           <el-table-column
             prop="checkintime"
@@ -86,15 +94,15 @@
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               <el-popover
-                v-if="scope.row.fkteamid == null"
+                v-if="scope.row.fkteamid == 0"
                 placement="left"
                 title="可绑定的车辆"
-                width="500"
+                width="350"
                 trigger="click">
                 <el-table :data="NotBinding">
-                  <el-table-column width="150" property="truckid" label="车辆编号"></el-table-column>
+                  <el-table-column width="50" property="truckid" label="车辆编号"></el-table-column>
                   <el-table-column width="100" property="number" label="车牌号"></el-table-column>
-                  <el-table-column width="300" property="type" label="车辆类型"></el-table-column>
+                  <el-table-column width="100" property="type" label="车辆类型"></el-table-column>
                   <el-table-column
                     fixed="right"
                     label="操作"
@@ -113,19 +121,12 @@
                   type="primary"
                   @click="binding1(scope.$index, scope.row)">绑定车辆</el-button>
               </el-popover>
-              <el-popover
-                v-if="scope.row.fkteamid != null"
-                placement="left"
-                title="可绑定的车辆"
-                width="500"
-                trigger="click"
-                content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
                 <el-button
+                  v-if="scope.row.fkteamid != 0"
                   slot="reference"
                   size="mini"
                   type="warning"
                   @click="notbinding(scope.$index, scope.row)">解绑车辆</el-button>
-              </el-popover>
             </template>
           </el-table-column>
         </el-table>
@@ -183,6 +184,29 @@
           </span>
         </el-dialog>
       </div>
+      <div>
+        <el-dialog
+          title="绑定车辆信息"
+          :visible.sync="dialogVisible2"
+          width="40%">
+          <el-table :data="bindingTruck">
+            <el-table-column width="100" property="truckid" label="车辆编号"></el-table-column>
+            <el-table-column width="100" property="number" label="车牌号"></el-table-column>
+            <el-table-column width="100" property="type" label="车辆类型"></el-table-column>
+            <el-table-column property="tonnage" label="吨位" width="80"></el-table-column>
+            <el-table-column prop="fkTeamid" label="所属车队" width="80"></el-table-column>
+            <el-table-column>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="deleteBinding">解绑该车辆</el-button>
+            </el-table-column>
+          </el-table>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible2 = false">取 消</el-button>
+          </span>
+        </el-dialog>
+      </div>
     </div>
 </template>
 
@@ -192,6 +216,7 @@
         data(){
           return{
             dialogVisible:false,
+            dialogVisible2:false,
             flag:'',
             pageSize:10,
             currentPage:1,
@@ -200,6 +225,8 @@
             delArr:[],
             drivers:[],
             NotBinding:[],
+            bindingTruck:[],
+            deleteBindingid:'',
             driver:{
               driverid:'',
               name:'',
@@ -207,7 +234,7 @@
               birth:'',
               phone:'',
               idcard:'',
-              fkteamid:'',
+              fkteamid:0,
               state:'',
               remark:'',
               isdelete:'',
@@ -339,16 +366,60 @@
             this.driver.driverid = row.driverid
           },
           binding2(index,row){
-            this.postKeyValueRequest("/driver/binding?driverid="+this.driver.driverid+"&truckid="+row.truckid).then(resp=>{
+            this.$confirm('此操作将绑定该车辆, 是否继续?', '警告', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.postKeyValueRequest("/driver/binding?driverid="+this.driver.driverid+"&truckid="+row.truckid).then(resp=>{
+                if (resp){
+                  this.initNotBinding();
+                  this.initDriver();
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消绑定'
+              });
+            });
+          },
+          notbinding(index,row){
+            this.dialogVisible2 = true
+            this.deleteBindingid = row.driverid
+            this.getRequest("/driver/getBindingTruck?driverid="+row.driverid).then(resp=>{
               if (resp){
-                this.initNotBinding();
+                console.log(resp)
+                this.bindingTruck = resp
               }
             })
+          },
+          deleteBinding(){
+            this.$confirm('此操作将解绑该车辆, 是否继续?', '警告', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.postKeyValueRequest("/driver/deleteBinding?driverid="+this.deleteBindingid).then(resp=>{
+                if (resp){
+                  this.dialogVisible2 = false
+                  this.initDriver()
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消绑定'
+              });
+            });
           }
         }
     }
 </script>
 
-<style scoped>
+<style >
+  .el-button + .el-button {
+    margin-left: 0px;
+  }
 
 </style>
