@@ -375,6 +375,7 @@
                 if (resp){
                   this.initNotBinding();
                   this.initDriver();
+
                 }
               })
             }).catch(() => {
@@ -404,6 +405,7 @@
                 if (resp){
                   this.dialogVisible2 = false
                   this.initDriver()
+                  this.initNotBinding();
                 }
               })
             }).catch(() => {

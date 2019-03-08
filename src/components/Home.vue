@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-header style="background-color: #545c64;display:flex;justify-content:space-between;align-items: center">
-        <div style="font-family: 微软雅黑;font-size: 20px;color: #ffd04b">物流管理系统</div>
+        <div style="font-family: 微软雅黑;font-size: 20px;color: #ffd04b">顺丰物流管理系统</div>
         <div>
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link" style="color: aliceblue">
@@ -36,8 +36,17 @@
             <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
           </el-breadcrumb>
           <hr size="1"/>
-          <div style="font-size: 40px;font-family: 华文行楷;text-align: center;line-height: 500px" v-if="this.$router.currentRoute.path=='/home'">
-            欢迎来到粤通物流管理系统！
+          <div  v-if="this.$router.currentRoute.path=='/home'">
+            <div>
+              <template> <el-carousel :interval="5000" arrow="always" class="d_jump" :height="imgHeight">
+                <el-carousel-item v-for="item in imgList" :key="item.id">
+                  <el-row> <el-col :span="24">
+                    <img ref="imgHeight" :src="item.idView" class="banner_img"/></el-col>
+                  </el-row>
+                </el-carousel-item>
+              </el-carousel>
+              </template>
+            </div>
           </div>
           <router-view/>
         </el-main>
@@ -51,6 +60,10 @@
     name: "Home",
     data(){
       return{
+        imgList: [ {id: 0, idView: require('../assets/a1.jpeg')},
+                    {id: 1, idView: require('../assets/a2.jpg')},
+                   {id: 2, name: '详情', idView: require('../assets/a3.jpg')}
+                 ],
         user:JSON.parse(window.sessionStorage.getItem("user")),
       }
     },
@@ -81,6 +94,25 @@
 
 </script>
 
-<style scoped>
+<style>
+  .el-carousel__item h3 {
+    color: #475669;
+    font-size: 18px;
+    opacity: 0.75;
+    line-height: 300px;
+    margin: 0;
+  }
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
 
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
+  .el-carousel__container {
+
+    position: relative;
+    height: 420px;
+
+  }
 </style>
