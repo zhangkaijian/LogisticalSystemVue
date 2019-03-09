@@ -266,6 +266,7 @@
             })
           },
           showAddDriverView() {
+            this.dialogVisible = true
             this.flag = '添加驾驶员信息'
             this.driver = {
               driverid: '',
