@@ -56,12 +56,12 @@
             </div>
             <div  style="height: 200px">
               <ul id="gov">
-                <li>
+                <li class="li1">
                   <a class="gov1" href="http://webcert.cnmstl.net/cert/code?sn=c6cc6af3fac440c28901c15a104582fe" target="_blank" oncontextmenu="return false;">
                     <img src="http://webcert.cnmstl.net/images/cert/code/officialbrand_small_h_img.jpg?sn=c6cc6af3fac440c28901c15a104582fe&amp;t=1476167429157" alt="安全网址认证书">
                   </a>
                 </li>
-                <li>
+                <li class="li1">
                   <a class="gov4" href="http://szcert.ebs.org.cn/B943BEFD-EF5E-4747-AD73-B875A1FC5CC7" target="_blank" oncontextmenu="return false;">
                     <img src="http://szcert.ebs.org.cn/Images/govIcon.gif" title="深圳市市场监督管理局企业主体身份公示" alt="深圳市市场监督管理局企业主体身份公示">
                   </a>
@@ -70,19 +70,19 @@
             </div>
             <div style="height: 35px;width: 100%">
               <ul id="ui1">
-                <li>使用条款&nbsp;&nbsp;&nbsp;|</li>
-                <li>服务网络&nbsp;&nbsp;&nbsp;|</li>
-                <li>丰桥平台&nbsp;&nbsp;&nbsp;|</li>
-                <li>隐私策略&nbsp;&nbsp;&nbsp;|</li>
-                <li>手机顺丰&nbsp;&nbsp;&nbsp;|</li>
-                <li>友情链接&nbsp;&nbsp;&nbsp;|</li>
-                <li>销售联盟&nbsp;&nbsp;&nbsp;|</li>
-                <li>顺丰社区&nbsp;&nbsp;&nbsp;|</li>
-                <li>顺丰公益&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">使用条款&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">服务网络&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">丰桥平台&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">隐私策略&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">手机顺丰&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">友情链接&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">销售联盟&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">顺丰社区&nbsp;&nbsp;&nbsp;|</li>
+                <li class="li1">顺丰公益&nbsp;&nbsp;&nbsp;|</li>
               </ul>
               <ul id="copyright">
-                <li><a class="gray nolink">©&nbsp;2017&nbsp;&nbsp;顺丰速运&nbsp;&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-                <li> <a href="http://www.miitbeian.gov.cn/" target="_blank">粤&nbsp;&nbsp;ICP&nbsp;&nbsp;备08034243号</a></li>
+                <li class="li1"><a class="gray nolink">©&nbsp;2017&nbsp;&nbsp;顺丰速运&nbsp;&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li class="li1"> <a href="http://www.miitbeian.gov.cn/" target="_blank">粤&nbsp;&nbsp;ICP&nbsp;&nbsp;备08034243号</a></li>
               </ul>
             </div>
           </div>
@@ -153,7 +153,8 @@
     height: 420px;
 
   }
-  li{
+  li.li1{
+    list-style: none;
     display: inline-block;
   }
   #ui1 {
